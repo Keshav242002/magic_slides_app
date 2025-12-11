@@ -1,1 +1,0 @@
-# magic_slides_app
