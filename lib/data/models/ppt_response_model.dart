@@ -14,13 +14,17 @@ class PptResponseModel extends Equatable {
   });
 
   factory PptResponseModel.fromJson(Map<String, dynamic> json) {
+    final rawData = json['data'];
+
     return PptResponseModel(
       success: json['success'] as bool? ?? (json['status'] == 'success'),
       status: json['status'] as String?,
-      data: json['data'] != null
-          ? PptDataModel.fromJson(json['data'] as Map<String, dynamic>)
+      data: (rawData is Map<String, dynamic> && rawData.containsKey('url'))
+          ? PptDataModel.fromJson(rawData)
           : null,
-      message: json['message'] as String?,
+      message: (rawData is Map<String, dynamic> && rawData['message'] is String)
+          ? rawData['message'] as String
+          : json['message'] as String?,
     );
   }
 
